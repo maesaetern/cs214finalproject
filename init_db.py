@@ -34,25 +34,52 @@ def create_database():
 def create_tables(cur):
     # Single table: dogs
     cur.execute("""
-        CREATE TABLE dogs (
-            id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+        CREATE TABLE rank (
+            rank INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
             name VARCHAR(50) NOT NULL,
-            age TINYINT UNSIGNED NOT NULL,
-            breed VARCHAR(100) NOT NULL
+            platform VARCHAR(50) NOT NULL,
+            year INT NOT NULL,
+            genre VARCHAR(50) NOT NULL,
+            publisher VARCHAR(50) NOT NULL
+            
         );
+        CREATE TABLE sales (
+            NA_Sales DECIMAL NOT NULL,
+            EU_Sales DECIMAL NOT NULL,
+            JP_Sales DECIMAL NOT NULL,
+            Other_Sales DECIMAL NOT NULL,
+            rank INT UNSIGNED AUTO_INCREMENT SURROGATE KEY,
+            Global_Sales DECIMAL NOT NULL
+            );
+        CREATE TABLE game (
+            
+        
+        
     """)
 
 
 
 def populate_tables(conn, cur, csvfile):
-    row = []
+    rows = []
     with open(csvfile, "r") as f:
         reader = csv.DictReader(f)
         for row in reader:
             rank = row["Rank"]
             name = row["Name"]
             platform = row["Platform"]
-            year = row["Year"]
+            year = int(row["Year"])
             genre = row["Genre"]
             publisher = row["Publisher"]
-            Genre, Publisher, NA_Sales, EU_Sales, JP_Sales, Other_Sales, Global_Sales
+            NA_sales = row["NA Sales"]
+
+
+            rows.append((rank, name, platform, year, genre, publisher))
+    if not rows:
+        return
+
+    cur.executemany(
+        "INSERT INTO videogame (rank, name, platform, year, genre, publisher) VALUES (%s, %s, %s, %s, %s)",
+        rows
+    )
+
+    conn.commit()
