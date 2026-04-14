@@ -1,6 +1,7 @@
 class VideoGames:
     def __init__(self):
-        pass
+        Genre, Publisher, NA_Sales, EU_Sales, JP_Sales, Other_Sales, Global_Sales
+        
 
 import mysql.connector
 class VideoGamesDB:
