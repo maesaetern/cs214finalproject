@@ -37,7 +37,7 @@ def create_tables(cur):
         CREATE TABLE rank (
             rank INT SIGNED AUTO_INCREMENT PRIMARY KEY,
             game_id INT NOT NULL AUTO_INCREMENT FOREIGN KEY,
-
+            FOREIGN KEY (game_id) REFERENCES game (game_id)
            
         );
         CREATE TABLE sales (
@@ -65,7 +65,6 @@ def create_tables(cur):
             PRIMARY KEY (game_id, sale_id)
             );
             
-        
     """)
 
 
@@ -82,15 +81,22 @@ def populate_tables(conn, cur, csvfile):
             genre = row["Genre"]
             publisher = row["Publisher"]
             NA_sales = row["NA Sales"]
+            EU_sales = row["EU Sales"]
+            JP_sales = row["JP Sales"]
+            Other_sales = row["Other Sales"]
+            Global_sales = row["Global Sales"]
 
 
-            rows.append((rank, name, platform, year, genre, publisher))
+            rows.append((rank, name, platform, year, genre, publisher, NA_sales, EU_sales, JP_sales, Other_sales, Global_sales))
     if not rows:
         return
 
     cur.executemany(
-        "INSERT INTO videogame (rank, name, platform, year, genre, publisher) VALUES (%s, %s, %s, %s, %s)",
-        rows
+        "INSERT INTO rank (rank, game_id) VALUES (%s, %s)",
+        "INSERT INTO game (game_id, name, platform, year, genre, publisher)",
+        "INSERT INTO sales (NA_sales, EU_sales, JP_sales, Other_sales, Global_sales) VALUES (%s, %s, %s, %s, %s)",
+        "INSERT INTO game_sale (game_id, sale_id) VALUES (%s, %s)"
     )
+
 
     conn.commit()
