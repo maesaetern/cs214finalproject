@@ -35,25 +35,36 @@ def create_tables(cur):
     # Single table: dogs
     cur.execute("""
         CREATE TABLE rank (
-            rank INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-            name VARCHAR(50) NOT NULL,
-            platform VARCHAR(50) NOT NULL,
-            year INT NOT NULL,
-            genre VARCHAR(50) NOT NULL,
-            publisher VARCHAR(50) NOT NULL
-            
+            rank INT SIGNED AUTO_INCREMENT PRIMARY KEY,
+            game_id INT NOT NULL AUTO_INCREMENT FOREIGN KEY,
+
+           
         );
         CREATE TABLE sales (
+            sale_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
             NA_Sales DECIMAL NOT NULL,
             EU_Sales DECIMAL NOT NULL,
             JP_Sales DECIMAL NOT NULL,
             Other_Sales DECIMAL NOT NULL,
-            rank INT UNSIGNED AUTO_INCREMENT SURROGATE KEY,
-            Global_Sales DECIMAL NOT NULL
+            Global_Sales DECIMAL NOT NULL,
+            FOREIGN KEY (rank) REFERENCES rank (rank)
             );
-        CREATE TABLE game (
             
-        
+        CREATE TABLE game (
+            game_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+            name VARCHAR(50) NOT NULL,
+            platform VARCHAR(50) NOT NULL,
+            year INT NOT NULL,
+            genre VARCHAR(50) NOT NULL,
+            publisher VARCHAR(50) NOT NUL
+            
+        );
+        CREATE TABLE game_sale (
+            game_id INT NOT NULL,
+            sale_id INT NOT NULL,
+            PRIMARY KEY (game_id, sale_id)
+            );
+            
         
     """)
 
