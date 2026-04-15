@@ -47,7 +47,7 @@ def create_tables(cur):
             JP_Sales DECIMAL NOT NULL,
             Other_Sales DECIMAL NOT NULL,
             Global_Sales DECIMAL NOT NULL,
-            FOREIGN KEY (rank) REFERENCES rank (rank)
+            FOREIGN KEY (game_id) REFERENCES game (game_id)
             );
             
         CREATE TABLE game (
@@ -57,12 +57,18 @@ def create_tables(cur):
             year INT NOT NULL,
             genre VARCHAR(50) NOT NULL,
             publisher VARCHAR(50) NOT NUL
-            
         );
+        
         CREATE TABLE game_sale (
             game_id INT NOT NULL,
             sale_id INT NOT NULL,
             PRIMARY KEY (game_id, sale_id)
+        );
+            
+         CREATE TABLE rank_sale (
+            sale_id INT NOT NULL,
+            rank INT NOT NULL,
+            PRIMARY KEY (sale_id, rank)   
             );
             
     """)
@@ -94,7 +100,7 @@ def populate_tables(conn, cur, csvfile):
     cur.executemany(
         "INSERT INTO rank (rank, game_id) VALUES (%s, %s)",
         "INSERT INTO game (game_id, name, platform, year, genre, publisher)",
-        "INSERT INTO sales (NA_sales, EU_sales, JP_sales, Other_sales, Global_sales) VALUES (%s, %s, %s, %s, %s)",
+        "INSERT INTO sales (NA_sales, EU_sales, JP_sales, Other_sales, Global_sales, game_id) VALUES (%s, %s, %s, %s, %s, %s)",
         "INSERT INTO game_sale (game_id, sale_id) VALUES (%s, %s)"
     )
 
