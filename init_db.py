@@ -38,9 +38,9 @@ def create_tables(cur):
             rank INT SIGNED AUTO_INCREMENT PRIMARY KEY,
             game_id INT NOT NULL AUTO_INCREMENT FOREIGN KEY,
             FOREIGN KEY (game_id) REFERENCES game (game_id)
-           
         );
-        CREATE TABLE sales (
+        
+        CREATE TABLE sale (
             sale_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
             NA_Sales DECIMAL NOT NULL,
             EU_Sales DECIMAL NOT NULL,
