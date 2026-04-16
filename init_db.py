@@ -86,11 +86,11 @@ def populate_tables(conn, cur, csvfile):
             year = int(row["Year"])
             genre = row["Genre"]
             publisher = row["Publisher"]
-            NA_sales = row["NA Sales"]
-            EU_sales = row["EU Sales"]
-            JP_sales = row["JP Sales"]
-            Other_sales = row["Other Sales"]
-            Global_sales = row["Global Sales"]
+            NA_sales = row["NA_Sales"]
+            EU_sales = row["EU_Sales"]
+            JP_sales = row["JP_Sales"]
+            Other_sales = row["Other_Sales"]
+            Global_sales = row["Global_Sales"]
 
 
             rows.append((rank, name, platform, year, genre, publisher, NA_sales, EU_sales, JP_sales, Other_sales, Global_sales))
