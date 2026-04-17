@@ -85,32 +85,30 @@ def create_tables(cur):
 
 
 def populate_tables(conn, cur, csvfile):
-    rows = []
+    games, ranks, sales = [], [], []
     with open(csvfile, "r") as f:
         reader = csv.DictReader(f)
-        for row in reader:
-            rank = row["Rank"]
-            name = row["Name"]
-            platform = row["Platform"]
-            year = int(row["Year"])
-            genre = row["Genre"]
-            publisher = row["Publisher"]
-            NA_sales = row["NA_Sales"]
-            EU_sales = row["EU_Sales"]
-            JP_sales = row["JP_Sales"]
-            Other_sales = row["Other_Sales"]
-            Global_sales = row["Global_Sales"]
-
-
-            rows.append((rank, name, platform, year, genre, publisher, NA_sales, EU_sales, JP_sales, Other_sales, Global_sales))
-    if not rows:
+        for game_id, row in enumerate(reader, start=1):
+            games.append((game_id, row["Name"], row["Platform"], row["Year"], row["Genre"], row["Publisher"]))
+        ranks.append((int(row["Rank"]), game_id))
+        sales.append((
+            game_id,
+            row["NA_Sales"],
+            row["EU_Sales"],
+            row["JP_Sales"],
+            row["Other_Sales"],
+            row["Global_Sales"]
+        ))
+    if not games:
         return
 
     cur.executemany(
-        "INSERT INTO rank (rank, game_id) VALUES (%s, %s)",
-        "INSERT INTO game (game_id, name, platform, year, genre, publisher) VALUES (%s, %s, %s, %s, %s, %s)",
+        "INSERT INTO game (game_id, name, platform, year, genre, publisher) VALUES (%s, %s, %s, %s, %s, %s)", games )
+    cur.executemany(
+        "INSERT INTO rank (rank, game_id) VALUES (%s, %s)", ranks )
+    cur.executemany(
         "INSERT INTO sales (NA_sales, EU_sales, JP_sales, Other_sales, Global_sales, game_id) VALUES (%s, %s, %s, %s, %s, %s)",
-        "INSERT INTO game_sale (game_id, sale_id) VALUES (%s, %s)"
+        sales
     )
 
 

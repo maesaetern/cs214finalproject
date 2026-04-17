@@ -10,6 +10,7 @@ load_dotenv()
 
 def main():
     setup_database("video_games_sales.csv")
+
     database = VideoGameDB(
         os.getenv("DBHOST"),
         os.getenv("USERNAME"),
