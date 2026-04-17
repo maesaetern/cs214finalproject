@@ -16,3 +16,6 @@ def main():
         os.getenv("PASSWORD"),
         os.getenv("DATABASE")
     )
+
+if __name__ == "__main__":
+    main()
