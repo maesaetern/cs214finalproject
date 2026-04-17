@@ -99,7 +99,7 @@ def populate_tables(conn, cur, csvfile):
 
     cur.executemany(
         "INSERT INTO rank (rank, game_id) VALUES (%s, %s)",
-        "INSERT INTO game (game_id, name, platform, year, genre, publisher)",
+        "INSERT INTO game (game_id, name, platform, year, genre, publisher) VALUES (%s, %s, %s, %s, %s, %s)",
         "INSERT INTO sales (NA_sales, EU_sales, JP_sales, Other_sales, Global_sales, game_id) VALUES (%s, %s, %s, %s, %s, %s)",
         "INSERT INTO game_sale (game_id, sale_id) VALUES (%s, %s)"
     )
