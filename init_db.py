@@ -36,7 +36,7 @@ def create_tables(cur):
     cur.execute("""
          CREATE TABLE game (
             game_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-            name VARCHAR(50) NOT NULL,
+            name VARCHAR(100) NOT NULL,
             platform VARCHAR(50) NOT NULL,
             year INT NOT NULL,
             genre VARCHAR(50) NOT NULL,
